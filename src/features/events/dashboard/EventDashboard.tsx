@@ -15,7 +15,11 @@ export default function EventDashboard({formOpen,setFormOpen}:Props){
     useEffect(()=>{
         setEvents(sampleData);
     },[])
-   
+    function addEvent(event:AppEvent){
+        setEvents(prevState =>{
+            return [...prevState,event]
+        })
+    }
     return (
         <Grid>
             <Grid.Column width={10}>
@@ -23,7 +27,7 @@ export default function EventDashboard({formOpen,setFormOpen}:Props){
             </Grid.Column>
             <Grid.Column width={6}>
                 {formOpen && 
-                <EventForm  setFormOpen={setFormOpen} />}
+                <EventForm  setFormOpen={setFormOpen} addEvent={addEvent}/>}
             </Grid.Column>
         </Grid>
     )
