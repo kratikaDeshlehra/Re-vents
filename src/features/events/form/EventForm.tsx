@@ -62,7 +62,7 @@ export default function EventForm({ setFormOpen ,addEvent,selectedEvent,updateEv
                         onChange={e => handleInputChange(e)} />
                 </Form.Field>
                 <Form.Field>
-                    <input type='text' placeholder="Date" value={values.date}
+                    <input type='date' placeholder="Date" value={values.date}
                         name='date'
                         onChange={e => handleInputChange(e)} />
                 </Form.Field>
