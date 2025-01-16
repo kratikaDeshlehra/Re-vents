@@ -8,7 +8,7 @@ import { AppEvent } from "../../../app/types/event";
 type Props={
     formOpen:boolean
     setFormOpen:(value:boolean) =>void;
-    selectEvent : (event :AppEvent)=>void;
+    selectEvent : (event :AppEvent | null)=>void;
     selectedEvent:AppEvent | null
 }
 export default function EventDashboard({formOpen,setFormOpen,selectEvent,selectedEvent}:Props){
@@ -17,12 +17,19 @@ export default function EventDashboard({formOpen,setFormOpen,selectEvent,selecte
     useEffect(()=>{
         setEvents(sampleData);
     },[])
+
+    
     function addEvent(event:AppEvent){
         setEvents(prevState =>{
             return [...prevState,event]
         })
     } 
 
+    function updateEvent(updatedEvent : AppEvent){
+        setEvents(events.map(evt => evt.id===updatedEvent.id ? updatedEvent:evt));
+        selectEvent(null);
+        setFormOpen(false);
+    }
   
     return (
         <Grid>
@@ -34,6 +41,7 @@ export default function EventDashboard({formOpen,setFormOpen,selectEvent,selecte
                 <EventForm  setFormOpen={setFormOpen} addEvent={addEvent}
                 selectedEvent={selectedEvent}
                 key={selectedEvent ? selectedEvent.id : 'create'}
+                updateEvent={updateEvent}
                 />}
             </Grid.Column>
         </Grid>
