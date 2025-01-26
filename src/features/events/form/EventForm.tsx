@@ -10,7 +10,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { createEvent, updateEvent } from "../eventSlice";
 
 export default function EventForm() {
-    let { id } = useParams();
+    const  { id } = useParams();
     const {
         register,
         handleSubmit,
@@ -28,10 +28,14 @@ export default function EventForm() {
     const navigate=useNavigate();
 
     function onSubmit(data: FieldValues) {
-        id=id ?? createId();
-        event ? dispatch(updateEvent({...event,...data, date:data.date.toString()})) :
-        dispatch(createEvent({...data,id,hostedBy:'bob',attendees :[],hostPhotoURL:'',date: data.date.toString()}))
-        navigate(`/events/${id}`);
+        const eventId=id?? createId();
+        if(event){
+            dispatch(updateEvent({...event,...data, date:data.date.toString()}));
+        }
+
+       else{
+        dispatch(createEvent({...data,id:eventId,hostedBy:'bob',attendees :[],hostPhotoURL:'',date: data.date.toString()}));}
+        navigate(`/events/${eventId}`);
         console.log(data);
     }
     return (
