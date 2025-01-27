@@ -9,6 +9,7 @@ import { useAppSelector } from "../../../app/folder/store";
 import { AppEvent } from "../../../app/types/event";
 import { collection, doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../../app/config/Firebase";
+import { toast } from "react-toastify";
 
 export default function EventForm() {
     const  { id } = useParams();
@@ -63,8 +64,8 @@ export default function EventForm() {
                  }
 
         } 
-        catch(err){
-            console.log(err);
+        catch(err : any){
+            toast.error(err.message);
         }
     }
        
