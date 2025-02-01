@@ -1,5 +1,5 @@
 import LoginForm from "../../../features/auth/LoginForm";
-import { useAppSelector } from "../../folder/store"
+import { useAppSelector } from "../../store/store"
 
 
 export default function ModalManager() {

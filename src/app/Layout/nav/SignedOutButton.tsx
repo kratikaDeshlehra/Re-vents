@@ -1,5 +1,5 @@
 import { Button, MenuItem } from "semantic-ui-react";
-import { useAppDispatch } from "../../folder/store";
+import { useAppDispatch } from "../../store/store";
 import { openModal } from "../../common/modals/modalSlice";
 
 export default function SignedOutButton() {

@@ -5,7 +5,7 @@ import { Controller, FieldValues, useForm } from "react-hook-form";
 import { categoryOptions } from "./categoryOptions";
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from "react-datepicker";
-import { useAppSelector } from "../../../app/folder/store";
+import { useAppSelector } from "../../../app/store/store";
 import { AppEvent } from "../../../app/types/event";
 import { collection, doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../../app/config/Firebase";
@@ -25,7 +25,7 @@ export default function EventForm() {
         
     );
    
-    const event = useAppSelector(state => state.events.events.find(e => e.id === id));
+    const event = useAppSelector(state => state.events.data.find(e => e.id === id));
     const navigate=useNavigate();
 
     async function updateEvent(data :AppEvent){

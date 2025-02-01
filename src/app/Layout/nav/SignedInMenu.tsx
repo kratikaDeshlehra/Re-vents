@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Image, Dropdown } from "semantic-ui-react";
-import { useAppDispatch, useAppSelector } from "../../folder/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { signOut } from "../../../features/auth/authSlice";
 
 

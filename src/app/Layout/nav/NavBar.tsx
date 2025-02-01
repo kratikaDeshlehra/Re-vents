@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Button, Container, Menu, MenuItem } from "semantic-ui-react";
 import SignedInMenu from "./SignedInMenu";
 import SignedOutButton from "./SignedOutButton";
-import { useAppSelector } from "../../folder/store";
+import { useAppSelector } from "../../store/store";
 import { sampleData } from "../../api/sampleData";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../config/Firebase";

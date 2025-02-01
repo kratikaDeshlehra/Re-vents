@@ -4,18 +4,18 @@ import EventDetailInfo from "./EventDetailInfo";
 import EventDetailChats from "./EventDetailChats";
 import EventDetailSidebar from "./EventDetailSidebar";
 import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../app/folder/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store/store";
 import { useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../app/config/Firebase";
-import { setEvents } from "../eventSlice";
+import { actions } from "../eventSlice";
 import { toast } from "react-toastify";
 import LoadingComponent from "../../../app/Layout/LoadingComponent";
 
 export default function EventDetailedPage() {
 
   const {id}=useParams();
-  const event=useAppSelector(state => state.events.events.find(e=> e.id===id));
+  const event=useAppSelector(state => state.events.data.find(e=> e.id===id));
   const dispatch=useAppDispatch();
   const [loading,setLoading]=useState(true);
 
@@ -24,7 +24,7 @@ export default function EventDetailedPage() {
          if(!id)return ;
          const unsubscribe=onSnapshot(doc(db,'events',id),{
           next: doc=>{
-            dispatch(setEvents({id:doc.id,...doc.data()}))
+            dispatch(actions.success({id:doc.id,...doc.data()} as any ))
             setLoading(false); 
           },
           error:err=>{

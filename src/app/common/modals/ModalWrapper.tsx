@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { Modal, ModalProps } from "semantic-ui-react"
-import { useAppDispatch, useAppSelector } from "../../folder/store"
+import { useAppDispatch, useAppSelector } from "../../store/store"
 import { closeModal } from "./modalSlice"
 
 type Props={
