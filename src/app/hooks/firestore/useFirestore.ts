@@ -59,10 +59,11 @@ export const useFirestore =<T>(path : string)=>{
             listenerRef.current.push({name: path, unsubscribe: listener });
 
        },[dispatch,path])
+
+
        const loadDocument =useCallback((id:string,actions: GenericActions<T>)=>{
            dispatch(actions.loading());
            const docRef=doc(db,path,id);
-
            const listener=onSnapshot(docRef,{
             next: doc=>{
                 if(!doc.exists){

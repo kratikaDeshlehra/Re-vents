@@ -10,8 +10,13 @@ import { AppEvent } from "../../../app/types/event";
 import { collection, doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../../app/config/Firebase";
 import { toast } from "react-toastify";
+import { useFirestore } from "../../../app/hooks/firestore/useFirestore";
+import { useEffect } from "react";
+import { actions } from "../eventSlice";
+import LoadingComponent from "../../../app/Layout/LoadingComponent";
 
 export default function EventForm() {
+    const {loadDocument}=useFirestore('events')
     const  { id } = useParams();
     const {
         register,
@@ -20,13 +25,23 @@ export default function EventForm() {
         setValue,
         formState: { errors, isValid,isSubmitting}
     } = useForm({
-        mode:'onTouched'
+        mode:'onTouched',
+        defaultValues: async()=>{
+            if(event) return {...event,date: new Date(event.date)}
+        }
     }
         
     );
    
     const event = useAppSelector(state => state.events.data.find(e => e.id === id));
+    const {status}=useAppSelector(state=> state.events);
     const navigate=useNavigate();
+
+    useEffect(()=>{
+     if(!id) return;  
+     loadDocument(id,actions)
+    },[id,loadDocument]);
+
 
     async function updateEvent(data :AppEvent){
         if(!event)return;
@@ -68,6 +83,8 @@ export default function EventForm() {
             toast.error(err.message);
         }
     }
+
+    if(status==='loading')return <LoadingComponent/>
        
     return (
         <Segment clearing>
