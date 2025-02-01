@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useRef } from "react"
 import { useAppDispatch } from "../../store/store";
 import { GenericActions } from "../../store/genericSlice";
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/Firebase";
 import { DocumentData } from "firebase/firestore";
+import { toast } from "react-toastify";
 type ListnerState ={
     name ?: string,
     unsubscribe :()=> void
 }
 
-export const useFirestore =<T>(path : string)=>{
+export const useFirestore =<T extends DocumentData>(path : string)=>{
        const listenerRef=useRef<ListnerState[]> ([]);
 
        useEffect(()=>{
@@ -60,7 +61,7 @@ export const useFirestore =<T>(path : string)=>{
 
        },[dispatch,path])
 
-
+     
        const loadDocument =useCallback((id:string,actions: GenericActions<T>)=>{
            dispatch(actions.loading());
            const docRef=doc(db,path,id);
@@ -76,6 +77,39 @@ export const useFirestore =<T>(path : string)=>{
 
            listenerRef.current.push({name: path+'/'+ id, unsubscribe:listener})
        },[dispatch,path])
-       return{loadCollections,loadDocument}
+
+       const create= async (data: T )=>{
+        try{
+            const ref=doc(collection(db,path));
+            await setDoc(ref,data);
+            return ref; 
+        }
+         catch(error : any ){
+            console.log(error);
+            toast.error(error.message);
+         }
+       } 
+
+       const update=async (id : string, data : T)=>{
+        const docRef=doc(db,path,id);
+        try{
+            return await updateDoc(docRef,data);
+        }
+        catch(error: any){
+            console.log(error);
+            toast.error(error.message);
+        } 
+       } 
+
+       const remove = async (id: string)=>{
+        try{
+            return await deleteDoc(doc(db,path,id))
+        } 
+        catch(error : any){
+            console.log(error);
+            toast.error(error.message);
+        }
+       }
+       return{loadCollections,loadDocument,create,update,remove}
 } 
 
