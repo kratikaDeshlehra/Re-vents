@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react"
 import { useAppDispatch } from "../../store/store";
 import { GenericActions } from "../../store/genericSlice";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../config/Firebase";
 import { DocumentData } from "firebase/firestore";
 type ListnerState ={
@@ -59,6 +59,22 @@ export const useFirestore =<T>(path : string)=>{
             listenerRef.current.push({name: path, unsubscribe: listener });
 
        },[dispatch,path])
-       return{loadCollections}
+       const loadDocument =useCallback((id:string,actions: GenericActions<T>)=>{
+           dispatch(actions.loading());
+           const docRef=doc(db,path,id);
+
+           const listener=onSnapshot(docRef,{
+            next: doc=>{
+                if(!doc.exists){
+                    dispatch(actions.error('Document does not exist'));
+                    return ;
+                } 
+                dispatch(actions.success({id:doc.id,...doc.data()} as unknown as T))
+            }
+           }) 
+
+           listenerRef.current.push({name: path+'/'+ id, unsubscribe:listener})
+       },[dispatch,path])
+       return{loadCollections,loadDocument}
 } 
 
