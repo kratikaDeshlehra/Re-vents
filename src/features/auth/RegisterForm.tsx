@@ -1,4 +1,4 @@
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Label } from "semantic-ui-react";
 import ModalWrapper from "../../app/common/modals/ModalWrapper";
 import { FieldValues, useForm } from "react-hook-form";
 import { auth } from "../../app/config/Firebase";
@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../app/store/store";
 
 export default function RegisterForm() {
     const dispatch=useAppDispatch();
-    const { register, handleSubmit, setValue,formState: { isSubmitting, isDirty, isValid, errors } } = useForm({
+    const { register, handleSubmit, setError, setValue,formState: { isSubmitting, isDirty, isValid, errors } } = useForm({
         mode: 'onTouched'
     });
 
@@ -21,8 +21,11 @@ export default function RegisterForm() {
            })
             dispatch(closeModal());
           }
-         catch(error ){
-            console.log(error);
+         catch(error : any ){
+            setError('root.serverError',{
+                type:'400',
+                message:error.message
+            })
          }
      
 
@@ -62,6 +65,12 @@ export default function RegisterForm() {
                         setValue('password', e.target.value, { shouldValidate: true });
                     }}
                 /> 
+
+                {errors.root && (
+                    <Label basic  color='red' style={{display: 'block',marginBottom:10}}
+                    content={errors.root.serverError.message}
+                    />
+                )}
                 <Button 
                 loading={isSubmitting}
                 disabled={!isValid || !isDirty || isSubmitting} 
