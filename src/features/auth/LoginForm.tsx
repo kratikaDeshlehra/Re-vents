@@ -1,21 +1,26 @@
 import { Button, Form } from "semantic-ui-react";
 import ModalWrapper from "../../app/common/modals/ModalWrapper";
 import { FieldValues, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../app/store/store";
-import { closeModal } from "../../app/common/modals/modalSlice";
-import { signIn } from "./authSlice";
-
+import { auth } from "../../app/config/Firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 export default function LoginForm() {
-
+ 
     const { register, handleSubmit, setValue,formState: { isSubmitting, isDirty, isValid, errors } } = useForm({
         mode: 'onTouched'
     });
 
-    const dispatch = useAppDispatch();
 
-    function onSubmit(data: FieldValues) {
-        dispatch(signIn(data));
-        dispatch(closeModal());
+    async function onSubmit(data: FieldValues) {
+         try{
+            const result=await signInWithEmailAndPassword(auth,data.email,data.password);
+              console.log(result);
+          }
+         catch(error ){
+            console.log(error);
+
+         }
+        // dispatch(signIn(data));
+        // dispatch(closeModal());
 
     }
     return (
