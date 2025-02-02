@@ -5,8 +5,13 @@ import { auth } from "../../app/config/Firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { closeModal } from "../../app/common/modals/modalSlice";
 import { useAppDispatch } from "../../app/store/store";
+import { useFirestore } from "../../app/hooks/firestore/useFirestore";
+import { Timestamp } from "firebase/firestore";
 
 export default function RegisterForm() {
+
+    const {set}=useFirestore('profiles');
+
     const dispatch=useAppDispatch();
     const { register, handleSubmit, setError, setValue,formState: { isSubmitting, isDirty, isValid, errors } } = useForm({
         mode: 'onTouched'
@@ -19,6 +24,11 @@ export default function RegisterForm() {
            await updateProfile(userCreds.user,{
             displayName: data.displayName,
            })
+            await set(userCreds.user.uid,{
+                displayName: data.displayName,
+                email : data.email,
+                createdAt: Timestamp.now()
+            })
             dispatch(closeModal());
           }
          catch(error : any ){

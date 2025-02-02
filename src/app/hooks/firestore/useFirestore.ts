@@ -109,7 +109,19 @@ export const useFirestore =<T extends DocumentData>(path : string)=>{
             console.log(error);
             toast.error(error.message);
         }
+       } 
+
+       const set =async (id: string,data : any)=>{
+        try{
+              
+            return await setDoc(doc(db,path,id),data);
+
+        } 
+        catch(error : any ){
+            console.log(error);
+            toast.error(error.message);
+        }
        }
-       return{loadCollections,loadDocument,create,update,remove}
+       return{loadCollections,loadDocument,create,update,remove,set}
 } 
 
