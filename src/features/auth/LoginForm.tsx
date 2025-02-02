@@ -3,8 +3,11 @@ import ModalWrapper from "../../app/common/modals/ModalWrapper";
 import { FieldValues, useForm } from "react-hook-form";
 import { auth } from "../../app/config/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { closeModal } from "../../app/common/modals/modalSlice";
+import { useAppDispatch } from "../../app/store/store";
+
 export default function LoginForm() {
- 
+    const dispatch=useAppDispatch();
     const { register, handleSubmit, setValue,formState: { isSubmitting, isDirty, isValid, errors } } = useForm({
         mode: 'onTouched'
     });
@@ -12,15 +15,13 @@ export default function LoginForm() {
 
     async function onSubmit(data: FieldValues) {
          try{
-            const result=await signInWithEmailAndPassword(auth,data.email,data.password);
-              console.log(result);
+            await signInWithEmailAndPassword(auth,data.email,data.password);  
+            dispatch(closeModal());
           }
          catch(error ){
             console.log(error);
-
          }
-        // dispatch(signIn(data));
-        // dispatch(closeModal());
+     
 
     }
     return (
