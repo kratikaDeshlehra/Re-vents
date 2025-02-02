@@ -10,7 +10,9 @@ export default function SignedOutButton() {
         console.log('button is clicked');
         dispatch(openModal({type:'LoginForm',data:{}}));
     }} />
-    <Button basic inverted content='Register' style={{ marginLeft: '0.5em' }} />
+    <Button
+    onClick={()=> dispatch(openModal({type:'RegisterForm'}))}
+    basic inverted content='Register' style={{ marginLeft: '0.5em' }} />
 
 </MenuItem>
   )

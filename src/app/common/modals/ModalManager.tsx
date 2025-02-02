@@ -1,4 +1,5 @@
 import LoginForm from "../../../features/auth/LoginForm";
+import RegisterForm from "../../../features/auth/RegisterForm";
 import { useAppSelector } from "../../store/store"
 
 
@@ -6,7 +7,8 @@ export default function ModalManager() {
   console.log('ModalManager component is loaded');
 
   const modalLookup={
-       LoginForm
+       LoginForm,
+       RegisterForm
   };
   
   const {open,type,data}=useAppSelector(state => state.modals);
