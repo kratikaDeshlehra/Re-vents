@@ -39,4 +39,4 @@ export const ProfileSlice =createGenericSlice({
     }
 })
 
-export const actions=ProfileSlice.actions;
+export const actions=ProfileSlice.actions

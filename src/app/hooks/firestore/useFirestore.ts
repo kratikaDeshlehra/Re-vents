@@ -92,6 +92,8 @@ export const useFirestore =<T extends DocumentData>(path : string)=>{
 
        const update=async (id : string, data : T)=>{
         const docRef=doc(db,path,id);
+       
+        console.log(" Firestore Update Request:", { id, data });
         try{
             return await updateDoc(docRef,data);
         }

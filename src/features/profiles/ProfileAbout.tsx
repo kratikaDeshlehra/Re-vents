@@ -1,6 +1,7 @@
 import { Button, Grid, Header, Tab } from "semantic-ui-react";
 import { Profile } from "../../app/types/profile";
 import { useState } from "react";
+import ProfileForm from "./ProfileForm";
 
 type Props={
     profile: Profile
@@ -19,11 +20,11 @@ export default function ProfileAbout({profile}:Props) {
             </Grid.Column> 
 
             <Grid.Column width={16}>
-                {editMode ? <p>Profile form</p> :(
+                {editMode ? <ProfileForm profile={profile} setEditMode={setEditMode}/>:(
                     <>
                     <div style={{marginBottom: 10}}>
                         <strong>Member Since : {profile.createdAt}</strong> 
-                        <div style={{marginTop:10}}>{profile.description}</div>
+                        <div style={{marginTop:10}}>{profile.description || 'No description available'}</div>
                     </div>
                     </>
                 )}
