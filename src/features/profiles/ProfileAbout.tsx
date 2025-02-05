@@ -1,4 +1,4 @@
-import { Button, Grid, GridColumn, Header, Tab } from "semantic-ui-react";
+import { Button, Grid, Header, Tab } from "semantic-ui-react";
 import { Profile } from "../../app/types/profile";
 import { useState } from "react";
 
