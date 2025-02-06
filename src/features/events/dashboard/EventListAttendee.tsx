@@ -7,7 +7,7 @@ type Props={
 export default function EventListAttendee({attendee}: Props) {
   return (
    <List.Item>
-    <Image size='mini' circular src={attendee.photoURL}/>
+    <Image size='mini' circular src={attendee.photoURL || 'categoryImages/user.png'}/>
    </List.Item>
 
   )

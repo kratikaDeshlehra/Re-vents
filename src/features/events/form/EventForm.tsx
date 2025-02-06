@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from "react-datepicker";
 import { useAppSelector } from "../../../app/store/store";
 import { AppEvent } from "../../../app/types/event";
-import { Timestamp} from "firebase/firestore";
+import { arrayUnion, Timestamp} from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useFirestore } from "../../../app/hooks/firestore/useFirestore";
 import { useEffect } from "react";
@@ -34,6 +34,7 @@ export default function EventForm() {
    
     const event = useAppSelector(state => state.events.data.find(e => e.id === id));
     const {status}=useAppSelector(state=> state.events);
+    const {currentUser}=useAppSelector(state => state.auth);
     const navigate=useNavigate();
 
     useEffect(()=>{
@@ -51,11 +52,18 @@ export default function EventForm() {
     } 
 
     async function createEvent(data : FieldValues){
+        if(!currentUser)return;
         const ref=await create ({
             ...data,
-            hostedBy:'bob',
-            attendees :[],
-            hostPhotoURL:'',
+             hostUid: currentUser?.uid,
+            hostedBy:currentUser.displayName,
+            attendees :arrayUnion({
+                id: currentUser.uid,
+                displayName: currentUser.displayName,
+                photoURL: currentUser.photoURL
+            }),
+            attendeeIds: arrayUnion(currentUser.uid),
+            hostPhotoURL:currentUser.photoURL,
             date:Timestamp.fromDate(data.date as unknown as  Date)
 
         }) 
