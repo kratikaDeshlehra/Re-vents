@@ -9,7 +9,10 @@ export default function EventList({ events }: Props) {
   return (
     <>
       {events.map((event) => (
-        <EventListItem key={event.id} event={event}  />
+        <div key={event.id} style={{marginBottom:'2em'}}>
+           <EventListItem key={event.id} event={event} />
+        </div>
+       
       ))}
 
     </>

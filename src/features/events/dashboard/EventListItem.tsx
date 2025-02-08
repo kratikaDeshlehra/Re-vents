@@ -9,9 +9,9 @@ type Props={
 export default function EventListItem({event}:Props) {
   
   return (
-    <div>
+    <div >
       <SegmentGroup>
-        <Segment>
+        <Segment style={{borderTopLeftRadius: '7px',borderTopRightRadius : '60px'}}>
             <ItemGroup>
                 <Item>
                     <Item.Image size="tiny" circular src={event.hostPhotoURL || './categoryImages/user.png'}/>
@@ -44,9 +44,11 @@ export default function EventListItem({event}:Props) {
                 ))}
             </List>
         </Segment>
-        <Segment clearing>
-          <span>{event.description}</span>  
-          <Button as={Link} to={`/events/${event.id}`} color="teal" floated="right" content='View'/>
+        <Segment>
+        <span>{event.description}</span> 
+        </Segment>
+        <Segment clearing  style={{borderBottomLeftRadius: '80px',borderBotomRightRadius : '40px',height :'4.5em'}}> 
+          <Button as={Link} to={`/events/${event.id}`} color="teal" floated='right' content='View' />
         </Segment>
       </SegmentGroup>
     </div>

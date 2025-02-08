@@ -1,8 +1,7 @@
 @import url('semantic-ui-css/semantic.min.css');
 
 body{
-    background-color: 
-    #eaeaea;
+    background-color: #0d160b
 } 
 
 .ui.fixed.menu{
@@ -38,3 +37,16 @@ body{
     
 
 }
+ 
+
+.menu-right {
+    margin-left: auto !important; /* Push to the right */
+    display: flex !important;
+    align-items: center;
+  } 
+
+  .custom-navbar .container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
