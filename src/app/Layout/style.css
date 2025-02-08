@@ -1,7 +1,8 @@
 @import url('semantic-ui-css/semantic.min.css');
 
 body{
-    background-color: #eaeaea;
+    background-color: 
+    #eaeaea;
 } 
 
 .ui.fixed.menu{
@@ -29,3 +30,11 @@ body{
     width:100%
 }
 
+
+.react-calendar{
+    width:100% !important;
+    border: none !important;
+    box-shadow: 0 1 px 2px 0 rgba(34,36,38,.15);
+    
+
+}

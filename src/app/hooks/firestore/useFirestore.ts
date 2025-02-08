@@ -5,6 +5,8 @@ import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from "fireb
 import { db } from "../../config/Firebase";
 import { DocumentData } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { CollectionOptions } from "./types";
+import { getQuery } from "./getQuery";
 type ListnerState ={
     name ?: string,
     unsubscribe :()=> void
@@ -31,10 +33,10 @@ export const useFirestore =<T extends DocumentData>(path : string)=>{
 
        const dispatch=useAppDispatch();
 
-       const loadCollections=useCallback((actions : GenericActions<T>)=>{
+       const loadCollections=useCallback((actions : GenericActions<T>,options?: CollectionOptions)=>{
             dispatch(actions.loading());
 
-            const query=collection(db,path);
+            const query=getQuery(path,options);
 
             const listener =onSnapshot(query,{
                 next: querySnapshot =>{
