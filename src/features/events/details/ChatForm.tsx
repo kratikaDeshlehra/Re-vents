@@ -6,9 +6,13 @@ import { push, ref, set } from "firebase/database";
 import { auth, fb } from "../../../app/config/Firebase";
 
 type Props={
-    eventId : string
+    eventId : string,
+    parentId?: string | null,
+    setReplyForm?: (values : any)=> void,
+
+
 }
-export default function ChatForm({eventId}:Props) {
+export default function ChatForm({eventId,parentId,setReplyForm}:Props) {
 
     const {register,handleSubmit,setValue, watch ,reset,formState:{isSubmitting}}=useForm({
         mode:'onTouched',
@@ -26,8 +30,10 @@ export default function ChatForm({eventId}:Props) {
                  photoURL : auth.currentUser?.photoURL,
                  uid: auth.currentUser?.uid,
                  text : data.comment,
-                 date : Date.now()
+                 date : Date.now(),
+                 parentId: parentId || null
              })
+             if(parentId && setReplyForm)setReplyForm({open:false,commenId : null})
              reset();
              setValue('comment','');
         } 

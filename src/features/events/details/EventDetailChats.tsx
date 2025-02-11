@@ -16,6 +16,11 @@ type Props={
 export default function EventDetailChats({eventId} : Props) {
     const [comments, setComments]=useState<ChatComment[]> ([]);
 
+    const [replyForm,setReplyForm]=useState<any>({
+        open : false,
+        commentId : null
+    })
+
     useEffect(()=>{
        const chatRef=ref(fb,`chat/${eventId}`)
        const unsubscribe=onChildAdded(chatRef, data => {
@@ -56,7 +61,19 @@ export default function EventDetailChats({eventId} : Props) {
                   </Comment.Metadata>
                   <Comment.Text>{comment.text}</Comment.Text>
                   <Comment.Actions>
-                      <Comment.Action>Reply</Comment.Action>
+                      <Comment.Action
+                      onClick={()=> setReplyForm({open : true, commenId : comment.id})}
+                      >
+                        Reply
+                        </Comment.Action>
+                        {replyForm.open && replyForm.commenId===comment.id && (
+                            <ChatForm 
+                            key={comment.id}
+                            eventId={eventId}
+                            parentId={comment.id}
+                            setReplyForm={setReplyForm}
+                            />
+                        )}
                   </Comment.Actions>
               </Comment.Content>
           </Comment>
@@ -64,7 +81,7 @@ export default function EventDetailChats({eventId} : Props) {
        
     </Comment.Group> 
 
-    <ChatForm eventId={eventId}/>
+    <ChatForm eventId={eventId} />
 </Segment>
 </>
 
