@@ -6,6 +6,7 @@ import { ChatComment } from "../../../app/types/event";
 import { onChildAdded, ref } from "firebase/database";
 import { fb } from "../../../app/config/Firebase";
 import { Link } from "react-router-dom";
+import { formatDistance } from "date-fns";
 
 type Props={
     eventId : string,
@@ -51,7 +52,7 @@ export default function EventDetailChats({eventId} : Props) {
               <Comment.Content>
                   <Comment.Author as={Link} to={`/profiles/${comment.uid}`}>{comment.displayName}</Comment.Author>
                   <Comment.Metadata>
-                      <div>{comment.date}</div>
+                      <div>{formatDistance(comment.date,new Date())} ago</div>
                   </Comment.Metadata>
                   <Comment.Text>{comment.text}</Comment.Text>
                   <Comment.Actions>

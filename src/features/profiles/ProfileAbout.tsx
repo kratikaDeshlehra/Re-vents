@@ -3,6 +3,7 @@ import { Profile } from "../../app/types/profile";
 import { useState } from "react";
 import ProfileForm from "./ProfileForm";
 import { auth } from "../../app/config/Firebase";
+import { format } from "date-fns";
 
 type Props={
     profile: Profile
@@ -26,7 +27,7 @@ export default function ProfileAbout({profile}:Props) {
                 {editMode ? <ProfileForm profile={profile} setEditMode={setEditMode}/>:(
                     <>
                     <div style={{marginBottom: 10}}>
-                        <strong>Member Since : {profile.createdAt}</strong> 
+                        <strong>Member Since</strong> <br></br>{format(profile.createdAt, 'dd-MMM-yyyy')}
                         <div style={{marginTop:10}}>{profile.description || 'No description available'}</div>
                     </div>
                     </>
