@@ -9,10 +9,13 @@ type Props={
     eventId : string
 }
 export default function ChatForm({eventId}:Props) {
-    const {register,handleSubmit,setValue, reset,formState:{isSubmitting}}=useForm({
+
+    const {register,handleSubmit,setValue, watch ,reset,formState:{isSubmitting}}=useForm({
         mode:'onTouched',
         defaultValues: {comment: ''}
     })
+
+    const commentValue = watch("comment");
 
     async function onSubmit(data : FieldValues){
         try{
@@ -38,6 +41,8 @@ export default function ChatForm({eventId}:Props) {
         <Form.TextArea 
         {...register('comment', {required : true})}
         placeholder ='Enter your comment (Enter to submit, shift + enter to add new line )'
+        value={commentValue} // ✅ Bind `watch()` value
+                onChange={(e) => setValue("comment", e.target.value, { shouldValidate: true })} 
         onKeyDown={(e : KeyboardEvent<HTMLTextAreaElement>)=>{
             console.log("Key Pressed:", e.key)
             if(e.key==='Enter' && e.shiftKey){
@@ -45,7 +50,6 @@ export default function ChatForm({eventId}:Props) {
             } 
             if(e.key==='Enter' && !e.shiftKey){
                 e.preventDefault();
-                setValue("comment", e.currentTarget.value, { shouldValidate: true });
                handleSubmit(onSubmit)(); 
             
             }
