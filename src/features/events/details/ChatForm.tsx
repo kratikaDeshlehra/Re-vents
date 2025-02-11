@@ -2,16 +2,29 @@ import { FieldValues, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import {  Form, Loader } from "semantic-ui-react";
 import { KeyboardEvent } from "react";
+import { push, ref, set } from "firebase/database";
+import { auth, fb } from "../../../app/config/Firebase";
 
-export default function ChatForm() {
+type Props={
+    eventId : string
+}
+export default function ChatForm({eventId}:Props) {
     const {register,handleSubmit,setValue, reset,formState:{isSubmitting}}=useForm({
         mode:'onTouched',
         defaultValues: {comment: ''}
     })
 
-    function onSubmit(data : FieldValues){
+    async function onSubmit(data : FieldValues){
         try{
-             console.log(data);
+             const chatRef=ref(fb,`chat/${eventId}`);
+             const newChatRef= push(chatRef);
+             await set(newChatRef,{
+                 displayName:auth.currentUser?.displayName,
+                 photoURL : auth.currentUser?.photoURL,
+                 uid: auth.currentUser?.uid,
+                 text : data.comment,
+                 date : Date.now()
+             })
              reset();
              setValue('comment','');
         } 

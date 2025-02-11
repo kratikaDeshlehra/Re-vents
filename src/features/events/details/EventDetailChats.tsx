@@ -2,7 +2,12 @@
 import { Segment, Header,Comment} from "semantic-ui-react";
 import ChatForm from "./ChatForm";
 
-export default function EventDetailChats() {
+type Props={
+    eventId : string,
+
+}
+
+export default function EventDetailChats({eventId} : Props) {
   return (
    
 <>
@@ -33,7 +38,7 @@ export default function EventDetailChats() {
         </Comment>
     </Comment.Group> 
 
-    <ChatForm />
+    <ChatForm eventId={eventId}/>
 </Segment>
 </>
 
